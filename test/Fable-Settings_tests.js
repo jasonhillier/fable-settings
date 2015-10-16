@@ -167,6 +167,25 @@ suite
 							.to.equal('Fable');
 					}
 				);
+				test
+				(
+					'attempt to load settings from a zookeeper url',
+					function()
+					{
+						var tmpFableSettings = require('../source/Fable-Settings.js').new(
+							{
+								DefaultConfigFile:__dirname+'/DefaultExampleSettings-Zookeeper.json',
+								ConfigFile:__dirname+'/NO_SETTINGS_HERE.json'
+							});
+						Expect(tmpFableSettings).to.have.a.property('settings')
+							.that.is.a('object');
+						Expect(tmpFableSettings.settings).to.have.a.property('Product')
+							.that.is.a('string');
+						//Can only validate with a zookeeper server
+						//Expect(tmpFableSettings.settings).to.have.a.property('test')
+						//	.that.equals('value');
+					}
+				);
 			}
 		);
 	}

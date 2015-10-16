@@ -8,6 +8,7 @@
 */
 // Underscore for utility
 var libUnderscore = require('underscore');
+var libFableZookeeper = require('fable-settings-zookeeper');
 
 /**
 * Fable Solution Settings
@@ -110,10 +111,28 @@ var FableSettings = function()
 			}
 			catch (pException)
 			{
-				// Why this?  Often for an app we want settings to work out of the box, but
-				// would potentially want to have a config file for complex settings.
-				console.log('Fable-Settings Warning: Configuration file specified but there was a problem loading it.  Falling back to base.');
-				console.log('     Loading Exception: '+pException);
+				// If there is a zookeeper configuration, then this fallback is expected
+				if (_Settings.ConfigUrl)
+				{
+					// Load from zookeeper with url format: zk://server1:port1,server2:port2.../key
+					var tmpSettingsData = libFableZookeeper.loadSettingsFromUrlSync(_Settings.ConfigUrl);
+
+					if (tmpSettingsData)
+					{
+						merge(tmpSettingsData);
+					}
+					else
+					{
+						console.log('Fable-Settings Warning: Configuration URL specified but there was a problem loading it.  Falling back to base.');
+					}
+				}
+				else
+				{
+					// Why this?  Often for an app we want settings to work out of the box, but
+					// would potentially want to have a config file for complex settings.
+					console.log('Fable-Settings Warning: Configuration file specified but there was a problem loading it.  Falling back to base.');
+					console.log('     Loading Exception: '+pException);
+				}
 			}
 		}
 
