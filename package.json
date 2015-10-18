@@ -29,7 +29,7 @@
     "mocha": "2.1.0"
   },
   "dependencies": {
-    "fable-settings-zookeeper": "0.0.2",
+    "fable-settings-zookeeper": "0.0.3",
     "underscore": "1.7.0"
   }
 }

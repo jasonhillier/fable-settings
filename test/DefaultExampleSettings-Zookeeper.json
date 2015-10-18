@@ -3,5 +3,5 @@
 	"ProductVersion": "0.0.0",
 
 	"TestValue": "NOT_OVERIDDEN",
-	"ConfigUrl": "zk://10.20.30.10:2181/testkey"
+	"ConfigUrl": "zk://127.0.0.1:2181/testkey"
 }

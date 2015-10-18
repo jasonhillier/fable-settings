@@ -136,6 +136,20 @@ var FableSettings = function()
 			}
 		}
 
+		// Save current settings state to a backend service. This is only supported
+		//  if ConfigUrl is set
+		var commit = function(fCallback)
+		{
+			if (_Settings.ConfigUrl)
+			{
+				libFableZookeeper.storeSettingsToUrl(_Settings.ConfigUrl, _Settings, fCallback);
+			}
+			else
+			{
+				return fCallback('ConfigUrl not defined in current settings!');
+			}
+		}
+
 		/**
 		* Container Object for our Factory Pattern
 		*/
@@ -143,6 +157,7 @@ var FableSettings = function()
 		{
 			merge: merge,
 			fill: fill,
+			commit: commit,
 
 			new: createNew
 		});

@@ -169,6 +169,22 @@ suite
 				);
 				test
 				(
+					'commit settings to a zookeeper url',
+					function(fDone)
+					{
+						var tmpFableSettings = require('../source/Fable-Settings.js').new(
+							{
+								DefaultConfigFile:__dirname+'/DefaultExampleSettings-Zookeeper.json',
+								ConfigFile:__dirname+'/NO_SETTINGS_HERE.json'
+							});
+
+						tmpFableSettings.settings.test = 'stored';
+
+						return tmpFableSettings.commit(fDone);
+					}
+				);
+				test
+				(
 					'attempt to load settings from a zookeeper url',
 					function()
 					{
@@ -181,9 +197,8 @@ suite
 							.that.is.a('object');
 						Expect(tmpFableSettings.settings).to.have.a.property('Product')
 							.that.is.a('string');
-						//Can only validate with a zookeeper server
-						//Expect(tmpFableSettings.settings).to.have.a.property('test')
-						//	.that.equals('value');
+						Expect(tmpFableSettings.settings).to.have.a.property('test')
+							.that.equals('stored');
 					}
 				);
 			}
